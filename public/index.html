@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Welcome to Willow</title>
+
         <script src="/uv/uv.bundle.js"></script>
         <script src="/uv/uv.config.js"></script>
         <script src="/baremux/index.js"></script>
@@ -16,15 +20,90 @@
         <link rel="stylesheet" href="example.css">
     </head>
     <body>
-        <input type="text" id="urlInput" placeholder="Enter URL here">
-        <button id="searchButton">Search Text</button>
-        <select id="switcher">
-            <option value="">--Please Choose an Option--</option>
-            <option value="epoxy">Epoxy</option>
-            <option value="bare">Bare</option>
-        </select>
+        <!-- Top center show-search button (hidden by default) -->
+        <button id="showSearch" class="show-search" aria-hidden="true">Search</button>
 
-        <iframe id="iframeWindow" class="iframeWindow"></iframe>
+        <main class="hero">
+            <div class="card" id="searchCard">
+                <h1 class="title">Welcome to Willow</h1>
+
+                <div class="search-row">
+                    <input type="text" id="urlInput" placeholder="Enter URL or search terms" autocomplete="off" />
+                    <button id="searchButton" aria-label="Search">Search</button>
+                </div>
+
+                <div class="options-row">
+                    <select id="switcher" aria-label="Connection mode">
+                        <option value="">--Choose a transport (optional)--</option>
+                        <option value="epoxy">Epoxy</option>
+                        <option value="bare">Bare</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+
+        <iframe id="iframeWindow" class="iframeWindow" title="Willow preview"></iframe>
+
+        <script src="example.js"></script>
+
+        <script>
+        // UI-only script: hide the search card after search and show a small button to restore it
+        (function(){
+            const card = document.getElementById('searchCard');
+            const showBtn = document.getElementById('showSearch');
+            const input = document.getElementById('urlInput');
+            const submit = document.getElementById('searchButton');
+
+            function hideCard(){
+                if(!card) return;
+                card.classList.add('hidden-card');
+                showBtn.setAttribute('aria-hidden','false');
+                showBtn.classList.add('visible');
+            }
+
+            function showCard(){
+                if(!card) return;
+                // Clear iframe to stop any embedded site activity before showing the UI
+                const iframe = document.getElementById('iframeWindow');
+                if(iframe){
+                    try{ iframe.src = 'about:blank'; } catch(e){}
+                }
+
+                // Clear iframe and force a top-level navigation to the site root so we end up
+                // back on the index page (prevents the search UI from being shown inside an embedded page)
+                try{ iframe.src = 'about:blank'; } catch(e){}
+                // Use location.replace so we don't create an extra history entry
+                if(location.pathname !== '/' && location.pathname !== '/index.html'){
+                    location.replace('/');
+                    return;
+                }
+
+                // If already on the root, just show the card
+                card.classList.remove('hidden-card');
+                showBtn.setAttribute('aria-hidden','true');
+                showBtn.classList.remove('visible');
+                input.focus();
+            }
+
+            // Hide the card after the existing onclick runs. We wrap submit click to allow original logic first.
+            if(submit){
+                submit.addEventListener('click', (e)=>{
+                    // Allow the event loop to process the original handlers first
+                    setTimeout(()=>{
+                        hideCard();
+                    }, 50);
+                });
+            }
+
+            // Also hide when enter is pressed (example.js triggers click on Enter)
+            input && input.addEventListener('keydown', (ev)=>{
+                if(ev.key === 'Enter'){
+                    setTimeout(()=> hideCard(), 50);
+                }
+            });
+
+            showBtn.addEventListener('click', ()=> showCard());
+        })();
+        </script>
     </body>
-    <script src="example.js"></script>
 </html>
