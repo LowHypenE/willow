@@ -5,6 +5,7 @@ import { epoxyPath } from "@mercuryworkshop/epoxy-transport"
 import { bareModulePath } from "@mercuryworkshop/bare-as-module3"
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node"
 import express from "express";
+import fs from 'node:fs';
 import { createServer } from "node:http";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,6 +29,13 @@ app.use((req, res) => {
 const server = createServer();
 
 server.on("request", (req, res) => {
+    // Log request method and url for debugging proxied requests
+    try {
+        const logLine = `${new Date().toISOString()} ${req.method} ${req.url}\n`;
+        fs.appendFileSync(join(__dirname, 'server.log'), logLine);
+    } catch (e) {
+        // ignore logging errors
+    }
     if (bare.shouldRoute(req)) {
         bare.routeRequest(req, res);
     } else {
