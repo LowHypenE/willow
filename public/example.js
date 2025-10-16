@@ -59,7 +59,7 @@ if(infoBtn){
     // create popup element and append to body
     infoPopup = document.createElement('div');
     infoPopup.className = 'info-popup';
-    infoPopup.innerHTML = `Willow is the v2 version for willow.lol recently taken down... Willow v2 is faster and supports tiktok unlike the last one. Still going through bug fixes, report bugs to <a href="mailto:idkwhattonameit053@gmail.com">idkwhattonameit053@gmail.com</a> or <a href="https://discord.com/users/unevenwxrld">unevenwxrld on Discord</a>.`;
+    infoPopup.innerHTML = `Willow is the v2 version for willow.xyz recently taken down... Willow v2 is faster and supports tiktok unlike the last one. Still going through bug fixes, report bugs to <a href="mailto:idkwhattonameit053@gmail.com">idkwhattonameit053@gmail.com</a> or <a href="https://discord.com/users/unevenwxrld">unevenwxrld on Discord</a>.`;
     document.body.appendChild(infoPopup);
 
     infoBtn.addEventListener('click', (ev)=>{
@@ -111,13 +111,20 @@ window.addEventListener('focus', () => {
 (() => {
     const lines = [
         'took 1 month to make',
-        'yes this is an alternative of truffled.lol (They\'re awesome!)',
+        'ima go broke after hosting this -$20',
         'credits to the one who dont gatekeep!',
         'contact me if u wanna be hired!',
         'doesnt support youtube yet... : |',
         'keep this unblocked cuz im running out of unblocked domains',
         'go touch some grass',
+        'dont gate keep this!!',
         'credits to truffled although they gatekept lol',
+        'U GUYS ARE AWESOME!!',
+        'dont gate keep this!!',
+        'I need employess cant do ts by my self...',
+        'yo i smell food',
+        'giv me ideas this site is boringggg!',
+        'dont gate keep this!!',
         'report bugs at unevenwxrld discord or my gmail down below'
     ];
 
